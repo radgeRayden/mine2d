@@ -1,4 +1,8 @@
+local batteries = require("batteries")
+local vec2 = batteries.vec2
+
 local c = require("constants")
+local Player = require("player")
 
 local world = {}
 local function generate_chunk(cx, cy)
@@ -25,6 +29,8 @@ function love.load()
     love.graphics.setBackgroundColor(0.17, 0.17, 0.17)
 end
 
+local player = Player(vec2(c.CHUNK_SIZE_WIDTH / 2 * c.TILE_SIZE, c.TILE_SIZE * 5))
+
 function love.update(dt)
 end
 
@@ -40,4 +46,6 @@ function love.draw()
             end
         end
     end
+
+    player:draw()
 end
