@@ -1,25 +1,24 @@
-local WORLD_CHUNKS_WIDTH = 32
-local WORLD_CHUNKS_HEIGHT = 10
-local CHUNK_SIZE_WIDTH = 32
-local CHUNK_SIZE_HEIGHT = 32
-local TILE_SIZE = 16
+local c = require("constants")
 
 local world = {}
 local function generate_chunk(cx, cy)
+    local cw, ch = c.CHUNK_SIZE_WIDTH, c.CHUNK_SIZE_HEIGHT
+
     local chunk = {}
-    for y = 0, CHUNK_SIZE_HEIGHT - 1 do
-        for x = 0, CHUNK_SIZE_WIDTH - 1 do
-            local v = y / CHUNK_SIZE_HEIGHT > 0.5 and 1 or 0
-            chunk[y * CHUNK_SIZE_WIDTH + x] = v
+    for y = 0, ch - 1 do
+        for x = 0, cw - 1 do
+            local v = y / ch > 0.5 and 1 or 0
+            chunk[y * cw + x] = v
         end
     end
     return chunk
 end
 
 function love.load()
-    for y = 0, WORLD_CHUNKS_HEIGHT do
-        for x = 0, WORLD_CHUNKS_WIDTH - 1 do
-            world[y * WORLD_CHUNKS_WIDTH + x] = generate_chunk(x, y)
+    local ww, wh = c.WORLD_CHUNKS_WIDTH, c.WORLD_CHUNKS_HEIGHT
+    for y = 0, wh do
+        for x = 0, ww - 1 do
+            world[y * ww + x] = generate_chunk(x, y)
         end
     end
 
@@ -33,11 +32,11 @@ function love.draw()
     love.graphics.setColor(0.7, 0.7, 0.7)
 
     local chunk = world[0]
-    for y = 0, CHUNK_SIZE_HEIGHT - 1 do
-        for x = 0, CHUNK_SIZE_WIDTH -1 do
-            local v = chunk[y * CHUNK_SIZE_WIDTH + x]
+    for y = 0, c.CHUNK_SIZE_HEIGHT - 1 do
+        for x = 0, c.CHUNK_SIZE_WIDTH -1 do
+            local v = chunk[y * c.CHUNK_SIZE_WIDTH + x]
             if v > 0 then
-                love.graphics.rectangle('fill', x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
+                love.graphics.rectangle('fill', x * c.TILE_SIZE, y * c.TILE_SIZE, c.TILE_SIZE, c.TILE_SIZE)
             end
         end
     end
