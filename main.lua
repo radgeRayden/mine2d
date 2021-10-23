@@ -2,13 +2,14 @@ local WORLD_CHUNKS_WIDTH = 32
 local WORLD_CHUNKS_HEIGHT = 10
 local CHUNK_SIZE_WIDTH = 32
 local CHUNK_SIZE_HEIGHT = 32
+local TILE_SIZE = 16
 
 local world = {}
 local function generate_chunk(cx, cy)
     local chunk = {}
     for y = 0, CHUNK_SIZE_HEIGHT - 1 do
         for x = 0, CHUNK_SIZE_WIDTH - 1 do
-            local v = love.math.random() > 0.5 and 1 or 0
+            local v = y / CHUNK_SIZE_HEIGHT > 0.5 and 1 or 0
             chunk[y * CHUNK_SIZE_WIDTH + x] = v
         end
     end
@@ -36,7 +37,7 @@ function love.draw()
         for x = 0, CHUNK_SIZE_WIDTH -1 do
             local v = chunk[y * CHUNK_SIZE_WIDTH + x]
             if v > 0 then
-                love.graphics.rectangle('fill', x * 16, y * 16, 16, 16)
+                love.graphics.rectangle('fill', x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
             end
         end
     end
