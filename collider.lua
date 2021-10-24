@@ -1,6 +1,7 @@
 local batteries = require("lib.batteries")
 local intersect = batteries.intersect
 local vec2 = batteries.vec2
+local class = batteries.class
 
 local Collider = class({
     name = "Collider"
