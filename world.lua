@@ -29,19 +29,27 @@ function World:move_thing(thing, dir)
         if not (thing == v) then
             -- object B is always static
             local msv = thing:collide(v)
-            intersect.resolve_msv(thing.position, v.position, msv, 1)
+            if msv then
+                intersect.resolve_msv(thing.position, v.position, msv, 1)
+            end
         end
     end
 
     -- priority is not overlapping terrain, so we do this last
     -- for now we only have one chunk, so let's keep it dumb.
+    local chunk = self.terrain[1]
     local pos = vec2()
     local tilecol = Collider('aabb', pos, vec2(c.TILE_SIZE, c.TILE_SIZE))
     for y=0, c.CHUNK_SIZE_HEIGHT-1 do
         for x=0, c.CHUNK_SIZE_WIDTH-1 do
-            pos.x, pos.y = c.TILE_SIZE * x, c.TILE_SIZE * y
-            local msv = thing:collide_with_aabb(tilecol)
-            intersect.resolve_msv(thing.position, tilecol.position, msv, 1)
+            local tilev = chunk[y*c.CHUNK_SIZE_WIDTH+x]
+            if tilev > 0 then
+                pos.x, pos.y = c.TILE_SIZE * x, c.TILE_SIZE * y
+                local msv = thing:collide_with_aabb(tilecol)
+                if msv then
+                    intersect.resolve_msv(thing.position, tilecol.position, msv, 1)
+                end
+            end
         end
     end
 end
