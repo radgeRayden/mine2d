@@ -1,4 +1,4 @@
-local batteries = require("batteries")
+local batteries = require("lib.batteries")
 local class = batteries.class
 
 local c = require("constants")
