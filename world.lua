@@ -25,12 +25,14 @@ end
 --- thing: Collider
 --- dir: vec2
 function World:move_thing(thing, dir)
+    local collided = false
     for k,v in ipairs(self.things) do
         if not (thing == v) then
             -- object B is always static
             local msv = thing:collide(v)
             if msv then
                 intersect.resolve_msv(thing.position, v.position, msv, 1)
+                collided = collided or true
             end
         end
     end
@@ -48,9 +50,14 @@ function World:move_thing(thing, dir)
                 local msv = thing:collide_with_aabb(tilecol)
                 if msv then
                     intersect.resolve_msv(thing.position, tilecol.position, msv, 1)
+                    collided = collided or true
                 end
             end
         end
+    end
+
+    if not collided then
+        thing.position:vaddi(dir)
     end
 end
 
