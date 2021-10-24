@@ -12,7 +12,7 @@ function Collider:new(shape, position, size)
         assert(type(size) == 'number')
         self.radius = size
         self.colfun = Collider.collide_with_circle
-    elseif shape == 'AABB' then
+    elseif shape == 'aabb' then
         self.hs = size:sdiv(2)
         self.colfun = Collider.collide_with_aabb
     else
