@@ -11,8 +11,10 @@ function Collider:new(shape, position, size)
     if shape == 'circle' then
         assert(type(size) == 'number')
         self.radius = size
+        self.colfun = Collider.collide_with_circle
     elseif shape == 'AABB' then
         self.hs = size:sdiv(2)
+        self.colfun = Collider.collide_with_aabb
     else
         error(string.format("shape %s not supported", shape))
     end
@@ -34,6 +36,11 @@ function Collider:collide_with_circle(other)
     else
         return intersect.circle_circle_collide(self.position, self.radius, other.position, other.radius)
     end
+end
+
+function Collider:collide(other)
+    -- there's probably a better way to do this?
+    other.colfun(self, other)
 end
 
 return Collider
