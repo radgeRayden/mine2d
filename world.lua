@@ -59,6 +59,7 @@ function World:move_thing(thing, dir)
     if not collided then
         thing.position:vaddi(dir)
     end
+    return collided
 end
 
 return World

@@ -15,14 +15,18 @@ function Player:new(position)
     self.collider = Collider('aabb', position, self.size)
     self.game_state = require("game_state")
     self.game_state.world:add_thing(self.collider)
+
+    self.grounded = false
 end
 
 function Player:update(dt)
     local world = self.game_state.world
 
     -- apply gravity
-    world:move_thing(self.collider, vec2(0, 100 * dt))
-    self.position:set(self.collider.position)
+    if not self.grounded then
+        self.grounded = world:move_thing(self.collider, vec2(0, 100 * dt))
+        self.position:set(self.collider.position)
+    end
 end
 
 function Player:draw()
