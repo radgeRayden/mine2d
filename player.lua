@@ -26,10 +26,12 @@ function Player:update(dt)
 end
 
 function Player:draw()
-    local pos = self.position
+    local pos, sz = self.position, self.size
     love.graphics.setColor(1,0,0)
-    -- pivot is bottom center
-    love.graphics.rectangle('fill', pos.x - c.TILE_SIZE / 2, pos.y - c.TILE_SIZE * 2, c.TILE_SIZE, c.TILE_SIZE * 2)
+
+    -- match colliders having pivot at center
+    -- I'll rework this later, just want to have graphics match representation atm.
+    love.graphics.rectangle('fill', pos.x - sz.x / 2, pos.y - sz.y / 2, sz.x, sz.y)
     love.graphics.setColor(1,1,1)
 end
 
