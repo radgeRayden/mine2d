@@ -7,7 +7,6 @@ local terragen = require("terrain_generation")
 local game_state = require("game_state")
 
 local chunk
-
 function love.load()
     love.graphics.setBackgroundColor(0.17, 0.17, 0.17)
     game_state.init()
@@ -33,4 +32,22 @@ function love.draw()
     end
 
     game_state.player:draw()
+end
+
+local wW, wH
+function love.keypressed(key)
+    if key == 'escape' then
+        love.event.quit()
+    elseif key == 'f5' then
+        love.event.quit("restart")
+    elseif key == 'return' and love.keyboard.isDown("lalt") then
+        -- on linux window dimensions don't get correctly restored when coming back from fullscreen.
+        local fullscreen = love.window.getFullscreen()
+        if not fullscreen then
+            wW, wH = love.graphics.getDimensions()
+            love.window.setFullscreen(true)
+        else
+            love.window.setMode(wW, wH, {fullscreen = false})
+        end
+    end
 end
